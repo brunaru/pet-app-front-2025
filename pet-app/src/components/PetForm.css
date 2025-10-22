@@ -1,0 +1,54 @@
+/* Estiliza o formulário */
+form {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: darkslateblue;
+}
+
+/* Cada bloco de campo */
+form div {
+  margin-bottom: 12px;
+}
+
+/* Rótulos */
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+/* Campos de entrada */
+input[type="text"],
+input[type="number"],
+input[type="date"] {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Botão de envio */
+button[type="submit"] {
+  padding: 10px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Efeito hover no botão */
+button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+/* Parágrafos ou mensagens */
+p {
+  font-size: 14px;
+  color: whitesmoke;
+}
