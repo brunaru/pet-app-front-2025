@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import Pet from "./Pet.jsx";
-import PetForm from "./PetForm.jsx";
+import ClientForm from "./ClientForm.jsx";
+import Client from "./Client.jsx";
 import "./List.css";
-import petApi from "../api/pets.api.js"
+import petApi from "../api/pets.api.js";
 import { FaPlusCircle, FaMinusCircle } from "react-icons/fa";
 
-export default function PetList(props) {
-   const [pets, setPets] = useState([]);
+export default function ClientList(props) {
+   const [clients, setClients] = useState([]);
    const [showForm, setShowForm] = useState(false);
 
    function handleToggleForm() {
@@ -14,35 +14,32 @@ export default function PetList(props) {
    }
 
    useEffect(() => {
-      petApi.getPets(props.authToken).then((result) => {
+      petApi.getClients(props.authToken).then((result) => {
          if(result.status === 200){ 
-            setPets(result.data);
+            setClients(result.data);
          }
       })
    }, []);
 
-   function addNewPet(pet) {
-      setPets([...pets, pet]);
+   function addNewClient(client) {
+      setClients([...clients, client]);
    }
 
    return (
       <div className="p-basico">
-         <h1>Pets</h1>
-         {pets.map(function (pet, index) {
+         <h1>Clientes</h1>
+         {clients.map(function (client, index) {
             return (
-               <Pet
+               <Client
                   key={index}
-                  name={pet.name}
-                  type={pet.type}
-                  birth={pet.birth}
-                  ClientId={pet.ClientId}
-                  photo={pet.photo}
+                  name={client.name}
+                  document={client.document}
                />
             );
          })}
          <div>
          {showForm ? (<FaMinusCircle className="pointer" onClick={handleToggleForm} />) : (<FaPlusCircle className="pointer" onClick={handleToggleForm} />)}
-         {showForm && <PetForm addNewPet={addNewPet} authToken={props.authToken} />}
+         {showForm && <ClientForm addNewClient={addNewClient} authToken={props.authToken} />}
          </div>
       </div>
    );

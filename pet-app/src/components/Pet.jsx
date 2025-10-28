@@ -1,4 +1,4 @@
-import "./Pet.css";
+import "./Element.css";
 
 export default function Pet(props) {
    return (

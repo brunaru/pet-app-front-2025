@@ -12,3 +12,17 @@
 .pointer {
   cursor: pointer;
 }
+
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav a {
+  margin: 0 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: whitesmoke;
+}
+
+

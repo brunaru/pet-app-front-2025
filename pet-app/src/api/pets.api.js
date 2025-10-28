@@ -2,20 +2,28 @@ import axios from "axios";
 
 const url = "http://localhost:3000";
 
-async function getPets() {
-  return axios.get(url + "/pets");
+async function getPets(token) {
+  return axios.get(url + "/pets", { headers: { Authorization: `Bearer ${token}`, }, });
 }
 
-async function getClients() {
-  return axios.get(url + "/clients");
+async function getClients(token) {
+  return axios.get(url + "/clients", { headers: { Authorization: `Bearer ${token}`, }, });
 }
 
-async function postPets(pet) {
-  return axios.post(url + "/pets", pet);
+async function postPets(pet, token) {
+  return axios.post(url + "/pets", pet, { headers: { Authorization: `Bearer ${token}`, }, });
 }
 
-async function postClient(client) {
-  return axios.post(url + "/clients", client);
+async function postClient(client, token) {
+  return axios.post(url + "/clients", client, { headers: { Authorization: `Bearer ${token}`, }, });
 }
 
-export default { getPets, postPets, getClients, postClient };
+async function signin(user) {
+  return axios.post(url + "/signin", user);
+}
+
+async function signup(user) {
+  return axios.post(url + "/signup", user);
+}
+
+export default { getPets, postPets, getClients, postClient, signin, signup };

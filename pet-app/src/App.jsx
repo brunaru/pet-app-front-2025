@@ -1,22 +1,24 @@
 import "./App.css";
-import PetForm from "./components/PetForm";
-import PetList from "./components/PetList";
+import Navigation from "./components/Navigation";
+import MyRoutes from "./routes/MyRoutes.jsx";
+import Login from "./components/Login.jsx";
+import { BrowserRouter as Router } from "react-router-dom";
 import { useState } from "react";
-import { FaPlusCircle } from "react-icons/fa";
-import { FaMinusCircle } from "react-icons/fa";
 
 export default function App() {
-  const [showForm, setShowForm] = useState(false);
+  const [authToken, setAuthToken] = useState("");
 
-  function handleToggleForm() {
-    setShowForm(!showForm);
+  function handleSetAuthToken(token) {
+    setAuthToken(token);
+    console.log("Token set in App:", token);
   }
 
   return (
     <main>
-      <PetList />
-      {showForm ? (<FaMinusCircle className="pointer" onClick={handleToggleForm} />) : (<FaPlusCircle className="pointer" onClick={handleToggleForm} />)}
-      {showForm && <PetForm />}
+      <Router>
+        {!authToken && <Login setAuthToken={handleSetAuthToken} />}
+        {authToken && <div> <Navigation /> <MyRoutes authToken={authToken} /> </div>}
+      </Router>
     </main>
   );
 }

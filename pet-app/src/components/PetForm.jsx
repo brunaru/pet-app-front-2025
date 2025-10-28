@@ -1,56 +1,49 @@
-import "./PetForm.css";
+import "./Form.css";
 import { useEffect, useState } from "react";
 import petsApi from "../api/pets.api.js";
 
-export default function PetForm() {
+export default function PetForm(props) {
   const [clients, setClients] = useState([]);
-  const [formData, setFormData] = useState({ name: "", type: "", breed: "", birth: "", photo: "", ClientId: "", });
+  const [formData, setFormData] = useState({name: "", type: "", breed: "", birth: "", photo: "", ClientId: ""});
 
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  useEffect(() => {
+    petsApi.getClients(props.authToken).then((result) => {
+      if (result.status == 200) {
+        setClients(result.data);
+      }})
+  }, []);
 
   function handleSubmit(event) {
     event.preventDefault();
-    //const body = JSON.stringify(formData);
     const body = {
       ...formData,
-      ClientId: Number(formData.ClientId), // converte para inteiro
+      ClientId: Number(formData.ClientId),
     };
-    petsApi.postPets(body).then((result) => {
+    petsApi.postPet(body, props.authToken).then((result) => {
       if (result.status == 200) {
-        alert("Pet cadastrado com sucesso!");
-        setFormData({ name: "", type: "", breed: "", birth: "", photo: "", ClientId: "", });
+        alert("Pet cadastrado com sucesso");
+        props.addNewPet(result.data);
+        setFormData({name: "", type: "", breed: "", birth: "", photo: "", ClientId: result.data.ClientId})
       }
     });
   }
 
-
-  function getClients() {
-    petsApi.getClients().then((result) => {
-      if (result.status == 200) {
-        const data = result.data;
-        setClients(data);
-      }
+  function handleChange(event) {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value
     });
   }
-
-  useEffect(() => {
-    getClients();
-  }, []);
 
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label>Name</label>
+        <label>Nome</label>
         <input type="text" name="name" value={formData.name} onChange={handleChange} />
       </div>
 
-    <label>Animal Type</label>
-    <select name="type" value={formData.type} onChange={handleChange}>
+    <label>Tipo de Animal</label>
+    <select name="type" value={formData.type} onChange={handleChange} >
         <option value="Dog">Dog</option>
         <option value="Cat">Cat</option>
         <option value="Bird">Bird</option>
@@ -64,30 +57,19 @@ export default function PetForm() {
 
       <div>
         <label>Data de Nascimento</label>
-        <input
-          type="date"
-          name="birth"
-          value={formData.birth}
-          onChange={handleChange}
-        />
+        <input type="date" name="birth" value={formData.birth} onChange={handleChange} />
       </div>
 
       <div>
         <label>URL da Foto</label>
-        <input
-          type="text"
-          name="photo"
+        <input type="text" name="photo" value={formData.photo} onChange={handleChange}
           placeholder="https://exemplo.com/foto.jpg"
-          value={formData.photo}
-          onChange={handleChange}
         />
       </div>
 
       <div>
         <label>Cliente</label>
         <select name="ClientId" value={formData.ClientId} onChange={handleChange} >
-          <option value="" disabled>
-          </option>
           {clients.map((client) => (
             <option key={client.id} value={client.id}>
               {client.name}
