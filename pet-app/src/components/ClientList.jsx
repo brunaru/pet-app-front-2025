@@ -25,6 +25,15 @@ export default function ClientList(props) {
       setClients([...clients, client]);
    }
 
+   function deleteClient(id) {
+      petApi.deleteClient(id).then((res) => {
+         if(res.status == 200) {
+            const clis = clients.filter(client => client.id != id);
+            setClients(clis);
+         }
+      })
+   }
+
    return (
       <div className="p-basico">
          <h1>Clientes</h1>
@@ -34,6 +43,8 @@ export default function ClientList(props) {
                   key={index}
                   name={client.name}
                   document={client.document}
+                  id={client.id}
+                  deleteClient={deleteClient}
                />
             );
          })}

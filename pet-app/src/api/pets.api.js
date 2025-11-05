@@ -10,6 +10,10 @@ async function getClients(token) {
   return axios.get(url + "/clients", { headers: { Authorization: `Bearer ${token}`, }, });
 }
 
+async function deleteClient(id, token) {
+  return axios.delete(url + "/clients/" + id, { headers: { Authorization: `Bearer ${token}`, }, });
+}
+
 async function postPets(pet, token) {
   return axios.post(url + "/pets", pet, { headers: { Authorization: `Bearer ${token}`, }, });
 }
@@ -26,4 +30,4 @@ async function signup(user) {
   return axios.post(url + "/signup", user);
 }
 
-export default { getPets, postPets, getClients, postClient, signin, signup };
+export default { getPets, postPets, getClients, postClient, deleteClient, signin, signup };
